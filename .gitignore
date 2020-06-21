@@ -1,0 +1,10 @@
+*.iml
+*target/
+*.svn/
+*.settings/
+*.project
+*.classpath
+*logs/
+
+*.idea/
+*bin/
