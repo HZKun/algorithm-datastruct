@@ -12,7 +12,7 @@ public class Test_203 {
         ListNode listNode = new ListNode();
         listNode = listNode.transformArray2ListNode(arr);
         System.out.println(listNode.toString());;
-        System.out.println(removeElements1(listNode,5).toString());
+        System.out.println(removeElements2(listNode,5).toString());
     }
 
 
@@ -34,6 +34,22 @@ public class Test_203 {
         }
         return head;
     }
+
+    public static ListNode removeElements2(ListNode head, int val) {
+        if(head == null){
+            return null;
+        }
+        head.next = removeElements2(head.next,val);
+        if(head.val == val){
+            return head.next;
+        }else{
+            return head;
+        }
+    }
+
+
+
+
 
 }
 
