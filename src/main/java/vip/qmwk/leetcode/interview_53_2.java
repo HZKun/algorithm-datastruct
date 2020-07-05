@@ -7,6 +7,8 @@ public class interview_53_2
     public static void main(String[] args) {
         int[] input = {0,1};
         System.out.println(search(input,2));
+
+
     }
 
     public static int search(int[] nums, int target) {
