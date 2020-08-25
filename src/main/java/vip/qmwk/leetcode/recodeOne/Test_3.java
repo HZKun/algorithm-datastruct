@@ -1,4 +1,4 @@
-package vip.qmwk.leetcode;
+package vip.qmwk.leetcode.recodeOne;
 
 import java.util.HashMap;
 import java.util.HashSet;
