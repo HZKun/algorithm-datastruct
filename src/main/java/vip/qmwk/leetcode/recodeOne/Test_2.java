@@ -1,6 +1,7 @@
-package vip.qmwk.leetcode;
+package vip.qmwk.leetcode.recodeOne;
 
-import java.util.List;
+
+import vip.qmwk.leetcode.recodeOne.bean.ListNode;
 
 /**
  * @author hzk
