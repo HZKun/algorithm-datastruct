@@ -1,6 +1,7 @@
 package vip.qmwk.leetcode.test;
 
 import vip.qmwk.leetcode.Test_1144;
+import vip.qmwk.leetcode.Test_3;
 import vip.qmwk.leetcode.Test_719;
 
 /**
@@ -13,7 +14,7 @@ import vip.qmwk.leetcode.Test_719;
 public class Test {
 
     public static void main(String[] args) {
-        int[] nums = {1,3,1};
-        System.out.println(Test_719.smallestDistancePair(nums,1));
+        String s = " ";
+        System.out.println(Test_3.lengthOfLongestSubstring(s));
     }
 }
