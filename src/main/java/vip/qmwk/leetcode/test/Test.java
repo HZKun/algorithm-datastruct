@@ -1,6 +1,7 @@
 package vip.qmwk.leetcode.test;
 
 import vip.qmwk.leetcode.recodeOne.Test_3;
+import vip.qmwk.leetcode.recodeOne.Test_5;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,7 +13,7 @@ import vip.qmwk.leetcode.recodeOne.Test_3;
 public class Test {
 
     public static void main(String[] args) {
-        String s = " ";
-        System.out.println(Test_3.lengthOfLongestSubstring(s));
+        String s = "";
+        System.out.println(Test_5.longestPalindrome(s));
     }
 }
