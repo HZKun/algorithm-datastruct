@@ -12,37 +12,42 @@ import java.util.*;
 public class Test_15 {
 
     public static void main(String[] args) {
-        int[] nums = {3,0,-2,-1,1,2};
+        int[] nums = {1,2,-2,-1};
         System.out.println(threeSum(nums));
     }
 
     public static List<List<Integer>> threeSum(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
-        if(nums == null || nums.length <= 2){
+        if(nums.length <= 2){
             return result;
         }
-        List<Integer> tmp = new ArrayList<>();
-        List<List<Integer>> sortTmp = new ArrayList<>();
-        Map<Integer,Integer[]> map = new HashMap<>();
-        for(int i = 0;i<nums.length-2;i++){
-            int tmpi = nums[i];
-            for (int j = i+1;j<nums.length;j++){
-                int tmpj = nums[j];
-                if(map.containsKey(tmpj)){
-                    Integer[] integers = map.get(tmpj);
-                    List<Integer> tmpList = Arrays.asList(integers);
-                    tmp = new ArrayList<>(tmpList);
-                    tmp.add(tmpj);
-                    Collections.sort(tmp);
-                    if(!sortTmp.contains(tmp)){
-                        sortTmp.add(tmp);
-                        result.add(tmp);
-                    }
-                }else{
-                    map.put(0-tmpi-tmpj,new Integer[]{tmpi,tmpj});
+        Arrays.sort(nums);
+        // 首指针
+        for (int i = 0; i < nums.length-1; i++) {
+            if(i >= 1 && nums[i] == nums[i -1]) {
+                continue;
+            }
+            // 尾指针
+            int last = nums.length - 1;
+            // 中间值
+            for (int j = i + 1; j < nums.length; j++) {
+                if(j >= i+2 && nums[j] == nums[j-1]){
+                    continue;
+                }
+                while(j<last && nums[i] + nums[j] + nums[last] > 0){
+                    last--;
+                }
+                if(j == last){
+                    break;
+                }
+                if(nums[i] + nums[j] + nums[last] == 0){
+                    List<Integer> tmp = new ArrayList<>();
+                    tmp.add(nums[i]);
+                    tmp.add(nums[j]);
+                    tmp.add(nums[last]);
+                    result.add(tmp);
                 }
             }
-            map.clear();
         }
         return result;
     }
