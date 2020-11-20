@@ -10,6 +10,7 @@ package vip.qmwk.leetcode.recodeOne.bean;
 public class ListNode {
     public int val;
     public ListNode next;
+    public ListNode random;
     public ListNode(int x) { val = x; }
 
     public ListNode(){};
@@ -32,7 +33,7 @@ public class ListNode {
         StringBuilder sb = new StringBuilder();
         ListNode curr = this;
         while(curr != null){
-            sb.append(curr.val).append("->");
+            sb.append(curr.val).append(",").append(random.val).append("->");
             curr = curr.next;
         }
         sb.append("NULL");
