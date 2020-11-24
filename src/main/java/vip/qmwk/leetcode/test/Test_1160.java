@@ -1,4 +1,4 @@
-package vip.qmwk.leetcode;
+package vip.qmwk.leetcode.test;
 
 import java.util.HashMap;
 import java.util.Map;

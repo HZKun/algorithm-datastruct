@@ -1,4 +1,4 @@
-package vip.qmwk.leetcode;
+package vip.qmwk.leetcode.test;
 
 public class interview_53_2
 {

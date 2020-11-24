@@ -19,6 +19,6 @@ public class Test_138 {
     }
 
     public static ListNode copyRandomList(ListNode head) {
-
+        return null;
     }
 }
