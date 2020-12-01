@@ -10,6 +10,7 @@ package vip.qmwk.leetcode.recodeOne.bean;
 public class ListNode {
     public int val;
     public ListNode next;
+    public ListNode pre;
     public ListNode random;
     public ListNode(int x) { val = x; }
 
