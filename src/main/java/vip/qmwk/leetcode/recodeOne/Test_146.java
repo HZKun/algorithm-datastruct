@@ -17,15 +17,15 @@ public class Test_146 {
 
     public static void main(String[] args) {
         LRUCache lRUCache = new LRUCache(2);
-        lRUCache.put(1, 1); // 缓存是 {1=1}
-        lRUCache.put(2, 2);
-        lRUCache.get(1);
-        lRUCache.put(3, 3);
-        lRUCache.get(2);
+        lRUCache.put(2, 1); // 缓存是 {1=1}
+        lRUCache.put(1, 1);
+        System.out.println(lRUCache.get(1));
+        lRUCache.put(4, 1);
+        System.out.println(lRUCache.get(2));
         lRUCache.put(4, 4);
-        lRUCache.get(1);
-        lRUCache.get(2);
-        lRUCache.get(4);
+        System.out.println(lRUCache.get(1));
+        System.out.println(lRUCache.get(3));
+        System.out.println(lRUCache.get(4));
     }
 
 
@@ -33,106 +33,160 @@ public class Test_146 {
 
 
 class LRUCache {
-    private int capacity;  // 容量
-    private int size;
+
     private Map<Integer, ListNode> map;
-    private ListNode head;  // 链表头数据
-    private ListNode tail;  // 尾数据
+
+    /**
+     * 双链表结点类
+     */
+    private class ListNode {
+
+        private Integer key;
+        private Integer value;
+        /**
+         * 前驱结点 precursor
+         */
+        private ListNode pre;
+        /**
+         * 后继结点 successor（写成 next 是照顾单链表的表示习惯）
+         */
+        private ListNode next;
+
+        public ListNode() {
+        }
+
+        public ListNode(Integer key, Integer value) {
+            this.key = key;
+            this.value = value;
+        }
+    }
+
+    private int capacity;
+
+    /**
+     * 虚拟头结点没有前驱
+     */
+    private ListNode dummyHead;
+    /**
+     * 虚拟尾结点没有后继
+     */
+    private ListNode dummyTail;
 
     public LRUCache(int capacity) {
+        map = new HashMap<>(capacity);
         this.capacity = capacity;
-        this.size = 0;
-        this.map = new HashMap<>(capacity);
-    }
+        dummyHead = new ListNode(-1, -1);
+        dummyTail = new ListNode(-1, -1);
+        // 初始化链表为 head <-> tail
 
-    public int get(int key) {
-        // 将当前元素排到队头
-        ListNode listNode = map.get(key);
-        if(listNode == null){
-            return -1;
-        }
-        if(size == 1){
-            return listNode.val;
-        }
-        ListNode pre = listNode.pre;
-        ListNode next = listNode.next;
-        pre.next = next;
-        if(next == null){
-            // listNode为尾元素
-            tail = pre;
-        }
-        add(listNode.val);
-        return listNode.val;
-    }
-
-    public void put(int key, int value){
-        if(size >= capacity){
-            // 删除尾元素，新增新元素
-            int tailKey = 0;
-            for (Map.Entry<Integer, ListNode> entries: map.entrySet()) {
-                ListNode tmp = entries.getValue();
-                if(tmp.val == tail.val){
-                    tailKey = entries.getKey();
-                }
-            }
-            map.remove(tailKey);
-            ListNode pre = tail.pre;
-            if(pre != null){
-                pre.next = null;
-                tail = pre;
-            }
-            size--;
-        }
-        // 头部添加
-        ListNode tmp = add(value);
-        map.put(key, tmp);
-        size++;
+        dummyHead.next = dummyTail;
+        dummyTail.pre = dummyHead;
     }
 
     /**
-     * 链表头加元素
+     * 如果存在，把当前结点移动到双向链表的头部
+     *
+     * @param key
+     * @return
+     */
+    public int get(int key) {
+        if (map.containsKey(key)) {
+            ListNode node = map.get(key);
+            int val = node.value;
+
+            // 把当前 node 移动到双向链表的头部
+            moveNode2Head(key);
+            return val;
+        } else {
+            return -1;
+        }
+    }
+
+    /**
+     * 如果哈希表的容量满了，就要删除一个链表末尾元素，然后在链表头部插入新元素
+     *
+     * @param key
      * @param value
      */
-    private ListNode add(int value){
-        ListNode tmp = new ListNode(value);
-        if(size == 0){
-            head = tmp;
-            tail = tmp;
-        }else{
-            if(size == 1){
-                // 处理尾结点的前置元素
-                tail.pre = tmp;
-            }
-            ListNode curr = head;
-            head = tmp;
-            head.next = curr;
-            curr.pre = head;
+    public void put(int key, int value) {
+        if (map.containsKey(key)) {
+            // 1、更新 value
+            map.get(key).value = value;
+            // 2、把当前 node 移动到双向链表的头部
+            moveNode2Head(key);
+            return;
         }
-        return tmp;
+
+        // 放元素的操作是一样的
+
+        if (map.size() == capacity) {
+            // 如果满了
+            ListNode oldTail = removeTail();
+
+            // 设计 key 就是为了在这里删除
+            map.remove(oldTail.key);
+        }
+
+        // 然后添加元素
+        ListNode newNode = new ListNode(key, value);
+        map.put(key, newNode);
+        addNode2Head(newNode);
     }
 
+    // 为了突出主干逻辑，下面是 3 个公用的方法
 
-    public int getCapacity() {
-        return capacity;
+    /**
+     * 删除双链表尾部结点
+     */
+    private ListNode removeTail() {
+        ListNode oldTail = dummyTail.pre;
+        ListNode newTail = oldTail.pre;
+
+        // 两侧结点建立连接
+        newTail.next = dummyTail;
+        dummyTail.pre = newTail;
+
+        // 释放引用
+        oldTail.pre = null;
+        oldTail.next = null;
+
+        return oldTail;
     }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
+    /**
+     * 把当前 key 指向的结点移到双向链表的头部
+     *
+     * @param key
+     */
+    private void moveNode2Head(int key) {
+        // 1、先把 node 拿出来
+        ListNode node = map.get(key);
+
+        // 2、原来 node 的前驱和后继接上
+        node.pre.next = node.next;
+        node.next.pre = node.pre;
+
+        // 3、再把 node 放在末尾
+        addNode2Head(node);
     }
 
-    public Map<Integer, ListNode> getMap() {
-        return map;
-    }
+    /**
+     * 在双链表的头部新增一个结点
+     *
+     * @param newNode
+     */
+    private void addNode2Head(ListNode newNode) {
+        // 1、当前头结点
+        ListNode oldHead = dummyHead.next;
 
-    public void setMap(Map<Integer, ListNode> map) {
-        this.map = map;
-    }
+        // 2、末尾结点的后继指向新结点
+        oldHead.pre = newNode;
 
-    public int getSize() {
-        return size;
-    }
+        // 3、设置新结点的前驱和后继
+        newNode.pre = dummyHead;
+        newNode.next = oldHead;
 
-    public void setSize(int size) {
-        this.size = size;
+        // 4、更改虚拟头结点的后继结点
+        dummyHead.next = newNode;
     }
 }

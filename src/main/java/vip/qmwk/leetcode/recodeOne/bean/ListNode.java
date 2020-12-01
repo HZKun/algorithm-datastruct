@@ -8,11 +8,13 @@ package vip.qmwk.leetcode.recodeOne.bean;
  * @Description:
  */
 public class ListNode {
+    public int key;
     public int val;
     public ListNode next;
     public ListNode pre;
     public ListNode random;
     public ListNode(int x) { val = x; }
+    public ListNode(int x, int y) { key = x; val = y; }
 
     public ListNode(){};
 
