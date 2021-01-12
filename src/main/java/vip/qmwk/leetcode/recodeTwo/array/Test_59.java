@@ -9,20 +9,44 @@ package vip.qmwk.leetcode.recodeTwo.array;
  */
 public class Test_59 {
 
-    public int[][] generateMatrix(int n) {
-        int[][] arr = new int[][];
-        for(int i = 1;i<=n*n;i++){
-            if(i<=n){
-                arr[0][i-1] = i;
-            }else if(i<=2*n-1){
-                arr[n-1][i-n-1] = i;
-            }else if(i<=){
-
-            }
-        }
+    public static void main(String[] args) {
+        generateMatrix(3);
     }
 
-    private void putValueForCircle(int[][] arr, int begin,int num){
-
+    public static int[][] generateMatrix(int n) {
+        int[][] arr = new int[n][n];
+        // 填充的数字
+        int num = 1;
+        // 上边界
+        int top = 0;
+        // 右边界
+        int right = n-1;
+        // 下边界
+        int bottom = n-1;
+        // 左边界
+        int left = 0;
+        while(num <= n * n){
+            // 从左上到右上
+            for(int i = left;i<=right;i++){
+                arr[top][i] = num++;
+            }
+            top++;
+            // 从右上到右下
+            for(int i = top;i<=bottom;i++){
+                arr[i][right] = num++;
+            }
+            right--;
+            // 右下到左下
+            for(int i = right;i>=left;i--){
+                arr[bottom][i] = num++;
+            }
+            bottom--;
+            // 左下到左上
+            for(int i = bottom;i>=top;i--){
+                arr[i][left] = num++;
+            }
+            left++;
+        }
+        return arr;
     }
 }
