@@ -25,7 +25,7 @@ public class Test_105 {
     public static TreeNode buildTree(int[] preorder, int[] inorder) {
         // 前序遍历---根左右
         // 中序遍历---左根右
-
+        return null;
     }
 
     /**
@@ -37,7 +37,7 @@ public class Test_105 {
      * @return
      */
     private static TreeNode buildTreeNode(int[] preorder, int pStart, int[] inorder, int iStart, int iEnd, TreeNode root) {
-
+        return null;
     }
 
     private static int getIndex(int value, int[] arr) {
