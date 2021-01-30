@@ -25,27 +25,23 @@ public class Test_86 {
         if(head == null || head.next == null){
             return head;
         }
-        ListNode smallDummy = new ListNode();
-        smallDummy.next = head;
-        ListNode smallHead = smallDummy;
+        ListNode dummy = new ListNode();
+        ListNode curr = dummy;
 
         ListNode bigDummy = new ListNode();
-        bigDummy.next = head;
-        ListNode bigHead = bigDummy;
-
-
+        ListNode bigNode = bigDummy;
         while(head != null){
-            if(head.val < x){
-                smallHead.next = head;
-                smallHead = smallHead.next;
+            if(head.val <x){
+                curr.next = head;
+                curr = curr.next;
             }else{
-                bigHead.next = head;
-                bigHead = bigHead.next;
+                bigNode.next = head;
+                bigNode = bigNode.next;
             }
             head = head.next;
         }
-        bigHead.next = null;
-        smallHead.next = bigDummy.next;
-        return smallDummy.next;
+        bigNode.next = null;
+        curr.next = bigDummy.next;
+        return dummy.next;
     }
 }
