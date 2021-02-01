@@ -1,5 +1,7 @@
 package vip.qmwk.leetcode.subject.doubleindex;
 
+import vip.qmwk.leetcode.recodeTwo.bean.ListNode;
+
 /**
  * Created with IntelliJ IDEA.
  *
@@ -8,4 +10,15 @@ package vip.qmwk.leetcode.subject.doubleindex;
  * @Description:
  */
 public class Test_206 {
+
+    public ListNode reverseList(ListNode head) {
+        ListNode pre = null;
+        while(head != null){
+            ListNode temp = head.next;
+            head.next = pre;
+            pre = head;
+            head = temp;
+        }
+        return pre;
+    }
 }
