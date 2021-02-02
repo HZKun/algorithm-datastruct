@@ -54,7 +54,23 @@ public class Test_160 {
 
 
     public static ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        return null;
+        if(headA == null || headB == null){
+            return null;
+        }
+        ListNode dummyA = new ListNode();
+        dummyA.next = headA;
+        ListNode dummyB = new ListNode();
+        dummyB.next = headB;
+        while(headA != headB){
+            headA = headA.next;
+            headB = headB.next;
+            if(headA == null && headB == null){
+                return null;
+            }
+            headA = headA == null? dummyB.next:headA;
+            headB = headB == null? dummyA.next:headB;
+        }
+        return headA;
     }
 
 
