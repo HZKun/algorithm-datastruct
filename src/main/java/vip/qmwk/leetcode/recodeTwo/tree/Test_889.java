@@ -7,7 +7,8 @@ import java.util.Map;
 
 public class Test_889 {
 
-    private static Map<Integer, Integer> map = new HashMap<>();
+    private int[] pre;
+    private int[] post;
 
     /**
      * 构造树的关键是找到根节点，然后是左子树范围，右子树范围，然后递归
@@ -15,12 +16,39 @@ public class Test_889 {
      * @param post
      * @return
      */
-    public static TreeNode constructFromPrePost(int[] pre, int[] post) {
-        for(int i = 0; i< post.length; i++){
-            map.put(post[i], i);
-        }
-        return buildTreeNode(pre, 0, pre.length - 1, post, 0, post.length - 1);
+    public TreeNode constructFromPrePost(int[] pre, int[] post) {
+        return buildTree(pre, post, 0, 0, pre.length);
+        //return buildTreeNode(pre, 0, pre.length - 1, post, 0, post.length - 1);
     }
+
+    /**
+     *
+     * @param preBegin 数组起始位置
+     * @param postBegin 数组起始位置
+     * @param length  数组长度，即子树长度
+     * @return
+     */
+    private static TreeNode buildTree(int[] pre, int[] post, int preBegin, int postBegin, int length){
+        if(length == 0){
+            return null;
+        }
+        TreeNode root = new TreeNode(pre[preBegin]);
+        if(length == 1){
+            return root;
+        }
+        // 获取左子树根节点坐标
+        // L为左子树长度
+        int L = 1;
+        for(; L< length; L++){
+            if(pre[preBegin + 1] == post[postBegin + L - 1]){
+                break;
+            }
+        }
+        root.left = buildTree(pre,post,preBegin + 1,postBegin,L);
+        root.right = buildTree(pre,post,preBegin + 1 + L,postBegin + L,length - L - 1);
+        return root;
+    }
+
 
     private static TreeNode buildTreeNode(int[] pre, int preBegin, int preEnd, int[] post, int postBegin, int postEnd){
         // 跳出循环条件
