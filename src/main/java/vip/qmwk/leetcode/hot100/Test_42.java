@@ -55,7 +55,7 @@ public class Test_42 {
      * 核心在于：
      *          当从左往右循环到left坐标时，左边的最大值left_max对它而言是可信的，但right_max对它而言是不可信的(即trap3从左向右循环里面的注释)。
      *          同理从右向左循环到right坐标时，右边的最大值right_max对它而言是可信的，但left_max对它而言是不可信的。
-     *          那么当我们当前在left时，它左边最大值一定是left_max，右边最大值>=当前记录的right_max，
+     *          那么当我们当前在left时，它左边最大值一定是left_max，右边最大值>=当前记录的right_max(因为left<right，因此最小也是right右边最大值)，
      *          这时候，如果left_max<right_max成立，那么它就知道自己能存多少水了。
      *          无论右边将来会不会出现更大的right_max，都不影响这个结果。
      *          所以当left_max<right_max时，left坐标的水就已知，我们就希望去处理left+1下标，反之，我们希望去处理right下标
